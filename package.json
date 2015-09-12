@@ -1,0 +1,23 @@
+{
+  "name": "jhtml",
+  "version": "0.0.0",
+  "description": "a simple library to generate html strings from javascript",
+  "main": "jhtml.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://JSystemsTech@github.com/JSystemsTech/jhtml.git"
+  },
+  "keywords": [
+    "jhtml",
+    "jshtml"
+  ],
+  "author": "JSystemsTech <jsystemstech@gmail.com> (http://jsystemstech.com)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/JSystemsTech/jhtml/issues"
+  },
+  "homepage": "https://github.com/JSystemsTech/jhtml#readme"
+}
