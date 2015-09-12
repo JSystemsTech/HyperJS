@@ -18,17 +18,20 @@ var REGISTERED_TEMPLATES = {};
 /**
  *   Register a template available for use 
  * @param  {String} title
-  * @param  {Object} templateObj
+ * @param  {Function} templateFunction
  */
-var registerTemplate = function (title, templateObj) {
+var registerTemplate = function(title, templateFunction) {
     if (_.isUndefined(REGISTERED_TEMPLATES[title])) {
         REGISTERED_TEMPLATES[title] = constructTemplate;
     }
 };
 /**
- *   get registered template
- **/
-var getTemplate = function (title, params) {
+ *   Get registered template
+ * @param  {String} title
+ * @param  {Object} params
+ * @return {Object} || {String}
+ */
+var getTemplate = function(title, params) {
     if (!_.isUndefined(REGISTERED_TEMPLATES[title])) {
         return REGISTERED_TEMPLATES[title](params);
     }
@@ -39,21 +42,25 @@ var getTemplate = function (title, params) {
  *   <{tag}/>
  *   Or 
  *   <{tag}><{/tag}
- **/
-var useClosingTag = function (tag) {
+ * @param {String} tag
+ * @return {Boolean}
+ */
+var useClosingTag = function(tag) {
     var needClosingTag = true;
-    _.each(tagsTypesThatDoNotNeedClosingTag, function(listedTag){
-        if(listedTag === tag){
+    _.each(tagsTypesThatDoNotNeedClosingTag, function(listedTag) {
+        if (listedTag === tag) {
             needClosingTag = false;
         }
     });
     return needClosingTag;
 };
 /**
- *   Check to see if functions need to be run to generate tag, property, and body values 
- **/
-var preCompileObject = function (jhtmlObj) {
-    if(_.isString(jhtmlObj)){
+ *   Check to see if functions need to be run to generate tag, property, and body values
+ * @param {Object} jhtmlObj
+ * @return {String} 
+ */
+var preCompileObject = function(jhtmlObj) {
+    if (_.isString(jhtmlObj)) {
         return jhtmlObj;
     }
     if (!_.isUndefined(jhtmlObj.template) && !_.isUndefined(jhtmlObj.params)) {
@@ -76,13 +83,15 @@ var preCompileObject = function (jhtmlObj) {
     return doCompile(finalJhtmlObj);
 };
 /**
- *   generate the html tag and the content within 
- **/
-var doCompile = function (jhtmlObj){
-    var tagProperties = ''; 
+ *   Generate the html tag and the content within 
+ * @param {Object} jhtmlObj
+ * @return {String}
+ */
+var doCompile = function(jhtmlObj) {
+    var tagProperties = '';
     if (!_.isUndefined(jhtmlObj.properties)) {
         var keys = _.keys(jhtmlObj.properties);
-        _.each(keys, function (key) {
+        _.each(keys, function(key) {
             tagProperties = tagProperties + ' ' + key + '="' + jhtmlObj.properties[key] + '"';
         });
     }
@@ -90,7 +99,7 @@ var doCompile = function (jhtmlObj){
     var finalBody = body;
     if (!_.isString(body)) {
         finalBody = '';
-        _.each(body, function (nextJhtmlObj) {
+        _.each(body, function(nextJhtmlObj) {
             finalBody = finalBody + preCompileObject(nextJhtmlObj);
         });
     }
@@ -103,14 +112,16 @@ var doCompile = function (jhtmlObj){
     return template;
 };
 /**
- *   require and compile html template from file 
+ *   Require and compile html template from file
+ * @param {String} sourcePath
+ * @return {String}
  **/
-var load = function (sourcePath) {
+var load = function(sourcePath) {
     var jhtmlObj = require(sourcePath);
     return preCompileObject(jhtmlObj);
 };
 module.exports = {
-   compile: preCompileObject,
-   load: load,
-   registerTemplate: registerTemplate
+    compile: preCompileObject,
+    load: load,
+    registerTemplate: registerTemplate
 };
