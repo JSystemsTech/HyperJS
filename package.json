@@ -25,5 +25,9 @@
   "bugs": {
     "url": "https://github.com/JSystemsTech/jhtml/issues"
   },
-  "homepage": "https://github.com/JSystemsTech/jhtml#readme"
+  "homepage": "https://github.com/JSystemsTech/jhtml#readme",
+  "devDependencies": {
+    "chai": "^3.2.0",
+    "mocha": "^2.3.2"
+  }
 }
