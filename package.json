@@ -1,6 +1,6 @@
 {
   "name": "html-template-generator",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "A simple library to generate html strings from javascript",
   "main": "index.js",
   "scripts": {
@@ -12,9 +12,15 @@
   },
   "keywords": [
     "jhtml",
-    "jshtml"
+    "jshtml",
+    "generate-html",
+    "html-template",
+    "html-template-generator"
   ],
   "author": "JSystemsTech <jsystemstech@gmail.com> (http://jsystemstech.com)",
+  "dependencies": {
+    "underscore": "x.x.x"
+  },
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/JSystemsTech/jhtml/issues"
