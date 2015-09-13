@@ -1,8 +1,8 @@
 {
-  "name": "jhtml",
+  "name": "html-template-generator",
   "version": "0.0.0",
-  "description": "a simple library to generate html strings from javascript",
-  "main": "jhtml.js",
+  "description": "A simple library to generate html strings from javascript",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
