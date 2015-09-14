@@ -1,8 +1,11 @@
 var should = require('chai').should(),
 	jhtml = require('../index'),
+	fs = require('fs'),
 	compile = jhtml.compile,
 	load = jhtml.load,
 	registerTemplate = jhtml.registerTemplate,
+	generateHtmlFile = jhtml.generateHtmlFile,
+	generateHtmlTemplatesDir = jhtml.generateHtmlTemplatesDir,
 	singleTag = {
 		tag: 'div',
 		properties: {
@@ -49,7 +52,7 @@ var should = require('chai').should(),
 						class: 'testClass'
 					},
 					body: 'test div tag' + i
-				})
+				});
 			}
 			return body;
 		}
@@ -61,7 +64,7 @@ var should = require('chai').should(),
 				tag: 'div',
 				body: params.subTitle
 			}, singleTag]
-		}
+		};
 	};
 describe('#compile', function() {
 	it('Compiles single div tag', function() {
@@ -109,5 +112,76 @@ describe('#registerTemplate', function() {
 				subTitle: 'testing title3'
 			}
 		}).should.equal('<p><div>testing title3</div><div class="testClass">test div tag</div></p>');
+	});
+});
+describe('#generateHtmlFile', function() {
+	it('Generates html file from user defined Object', function() {
+		var path = '../jhtml/test/htmlTemplatesTest/testGeneratedHtmlFile1';
+		generateHtmlFile(path, complexTag);
+		fs.readFile(path, function(err, data) {
+			if (err) {
+				throw err;
+			}
+			data.toString().should.equal('<div class="testClass"><div class="testClass">test div tag1</div><br/><div class="testClass">test div tag2</div></div>');
+		});
+	});
+	it('Generates html file from template file', function() {
+		var path = '../jhtml/test/htmlTemplatesTest/testGeneratedHtmlFile2';
+		generateHtmlFile(path, '../jhtml/test/templates', true);
+		fs.readFile(path, function(err, data) {
+			if (err) {
+				throw err;
+			}
+			data.toString().should.equal('<div class="testClass"><div class="testClass">test div tag1</div><br/><div class="testClass">test div tag2</div></div>');
+		});
+	});
+});
+describe('#generateHtmlTemplatesDir', function() {
+	var sourcePath = '../jhtml/test/jsTemplates',
+		destinationPath = '../jhtml/test/htmlTemplatesTest/generatedTemplates';
+	generateHtmlTemplatesDir(sourcePath, destinationPath);
+
+	it('Generates 4 templates', function() {
+		fs.readdir(destinationPath, function(err, files) {
+			if (err) {
+				throw err;
+			}
+			files.length.should.equal(4);
+		});
+	});
+	it('Generates temlate1.html file', function() {
+		var path = '../jhtml/test/htmlTemplatesTest/generatedTemplates/template1';
+		fs.readFile(path, function(err, data) {
+			if (err) {
+				throw err;
+			}
+			console.log(data.toString());
+			data.toString().should.equal('<div class="testClass">test div tag</div>');
+		});
+	});
+	it('Generates temlate2.html file', function() {
+		var path = '../jhtml/test/htmlTemplatesTest/generatedTemplates/template2';
+		fs.readFile(path, function(err, data) {
+			if (err) {
+				throw err;
+			}
+			data.toString().should.equal('<div class="testClass"><div class="testClass">test div tag1</div><br/><div class="testClass">test div tag2</div></div>');
+		});
+	});
+	it('Generates temlate3.html file', function() {
+		var path = '../jhtml/test/htmlTemplatesTest/generatedTemplates/template3';
+		fs.readFile(path, function(err, data) {
+			if (err) {
+				throw err;
+			}
+			data.toString().should.equal('<div class="testClass">test div tag</div>');
+		});
+	});
+	it('Generates temlate4.html file', function() {
+		var path = '../jhtml/test/htmlTemplatesTest/generatedTemplates/template4';
+		fs.readFile(path, function(err, data) {
+			if (err) throw err;
+			data.toString().should.equal('<div class="testClass"><div class="testClass">test div tag1</div><br/><div class="testClass">test div tag2</div></div>');
+		});
 	});
 });

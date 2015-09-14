@@ -11,7 +11,9 @@ A simple library to generate html template strings from javascript
 	var htmlTemplateGenerator = require('html-template-generator'),
 		compile = htmlTemplateGenerator.compile,
 		load = htmlTemplateGenerator.load,
-		registerTemplate = htmlTemplateGenerator.registerTemplate;
+		registerTemplate = htmlTemplateGenerator.registerTemplate,
+		generateHtmlFile = jhtml.generateHtmlFile,
+		generateHtmlTemplatesDir = jhtml.generateHtmlTemplatesDir;
 
 	var complexTag = {
 		tag: 'div',
@@ -33,7 +35,7 @@ A simple library to generate html template strings from javascript
 			},
 			body: 'test div tag2'
 		}]
-	}
+	};
 	var functionTag = {
 		tag: function() {
 			return 'div';
@@ -56,7 +58,7 @@ A simple library to generate html template strings from javascript
 			}
 			return body;
 		}
-	}
+	};
 	var template = function(params) {
 		return {
 			tag: params.tag,
@@ -97,6 +99,26 @@ A simple library to generate html template strings from javascript
 	
 	var htmlTemplateFromFile = load(<file path>);
 
+	/* 4.	Generate HTML File */
+
+	var destinationPath = 'tempates/html/testTemplate1'; /* Do not include '.html' extention 
+	 													in the path since it is handled by the
+	 													function already. */
+	generateHtmlFile(destinationPath, complexTag);
+	/* OR load from file */ 
+	generateHtmlFile(destinationPath, <file path>, true);
+	
+	/* 5.	Generate HTML Template Directpry */
+
+	/* Takes only the .js and .json files of a given directory and generates HTML files in another directory. */ 
+
+	var sourceDirPath = 'tempates/html/templates; 
+	var destinationDirPath = 'tempates/html/generatedHtml';
+
+	generateHtmlTemplatesDir(sourceDirPath, destinationDirPath);
+	/* note that the names of the HTML files will ne the same as the names of the .js and .json files */
+
+	
 ## Tests
 
   npm test
@@ -108,4 +130,4 @@ Add unit tests for any new or changed functionality. Lint and test your code.
 
 ## Release History
 
-* 0.1.0 Initial release
+* 0.2.0 Initial release

@@ -1,0 +1,7 @@
+module.exports = {
+	tag: 'div',
+	properties: {
+		class: 'testClass'
+	},
+	body: 'test div tag'
+}
