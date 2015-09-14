@@ -22,7 +22,7 @@ var REGISTERED_TEMPLATES = {};
  */
 var registerTemplate = function(title, templateFunction) {
     if (_.isUndefined(REGISTERED_TEMPLATES[title])) {
-        REGISTERED_TEMPLATES[title] = constructTemplate;
+        REGISTERED_TEMPLATES[title] = templateFunction;
     }
 };
 /**
