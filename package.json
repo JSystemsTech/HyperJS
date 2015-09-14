@@ -1,5 +1,5 @@
 {
-  "name": "html_template_generator",
+  "name": "html-template-generator",
   "version": "0.1.0",
   "description": "A simple library to generate html strings from javascript",
   "main": "index.js",
