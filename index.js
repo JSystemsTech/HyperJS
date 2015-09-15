@@ -1,4 +1,5 @@
-var _ = require('underscore');
+var _ = require('underscore'),
+    fs = require('fs');
 var tagsTypesThatDoNotNeedClosingTag = [
     'area',
     'base',
@@ -120,8 +121,53 @@ var load = function(sourcePath) {
     var jhtmlObj = require(sourcePath);
     return preCompileObject(jhtmlObj);
 };
+/**
+ *   Generate html file from provided template object or filepath
+ * @param {String} destinationPath
+ * @param {String} || {Object} pathOrObj
+ * @param {Boolean} loadFromFile
+ **/
+var generateHtmlFile = function(destinationPath, pathOrObj, loadFromFile) {
+    var compiledHtmlString;
+    if (!_.isUndefined(loadFromFile) && _.isString(pathOrObj) && loadFromFile === true) {
+        compiledHtmlString = load(pathOrObj);
+    } else {
+        compiledHtmlString = preCompileObject(pathOrObj);
+    }
+
+    fs.writeFile(destinationPath + '.html', compiledHtmlString, {
+        flags: 'wx'
+    }, function(err) {
+        if (err) {
+            throw err;
+        }
+        console.log(destinationPath + '.html created');
+    });
+};
+/**
+ *   Generate html files in given directory from givem .js or .json template files in another directory
+ * @param {String} sourceDirPath
+ * @param {String} destinationDirPath
+ **/
+var generateHtmlTemplatesDir = function(sourceDirPath, destinationDirPath) {
+    fs.readdir(sourceDirPath, function(err, files) {
+        if (err) {
+            throw err;
+        }
+        _.each(files, function(name) {
+            var trimmedName = name.substr(0, name.lastIndexOf('.'));
+            var fileExtention = name.substr(name.lastIndexOf('.'), name.length);
+            if (fileExtention === '.js' || fileExtention === '.json') {
+                generateHtmlFile(destinationDirPath + '/' + trimmedName, sourceDirPath + '/' + trimmedName, true);
+            }
+
+        });
+    });
+};
 module.exports = {
     compile: preCompileObject,
     load: load,
-    registerTemplate: registerTemplate
+    registerTemplate: registerTemplate,
+    generateHtmlFile: generateHtmlFile,
+    generateHtmlTemplatesDir: generateHtmlTemplatesDir
 };
