@@ -1,0 +1,32 @@
+{
+  "name": "html-template-generator",
+  "main": "index.js",
+  "version": "0.2.0",
+  "homepage": "https://github.com/JSystemsTech/jhtml",
+  "authors": [
+    "JSystemsTech <jsystemstech@gmail.com>"
+  ],
+  "description": "A simple library to generate html from javascript",
+  "keywords": [
+    "jhtml",
+    "jshtml",
+    "generate-html",
+    "html-template",
+    "html-template-generator"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "underscore": "https://github.com/jashkenas/underscore"
+  },
+  "devDependencies": {
+    "chai": "https://github.com/chaijs/chai",
+    "mocha": "https://github.com/mochajs/mocha"
+  }
+}
