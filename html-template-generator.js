@@ -56,11 +56,25 @@ var useClosingTag = function(tag) {
     return needClosingTag;
 };
 /**
+ *   Check for attrs attribute as alias for properties attribute
+ * @param {Object} jhtmlObj
+ * @return {Object} 
+ */
+var getAttributesAlias = function(jhtmlObj) {
+    if (!_.isUndefined(jhtmlObj.properties)) {
+        return jhtmlObj;
+    } else if (!_.isUndefined(jhtmlObj.attrs)) {
+        jhtmlObj.properties = jhtmlObj.attrs;
+    }
+    return jhtmlObj;
+};
+/**
  *   Check to see if functions need to be run to generate tag, property, and body values
  * @param {Object} jhtmlObj
  * @return {String} 
  */
 var preCompileObject = function(jhtmlObj) {
+    jhtmlObj = getAttributesAlias(jhtmlObj);
     if (_.isString(jhtmlObj)) {
         return jhtmlObj;
     }
@@ -78,9 +92,22 @@ var preCompileObject = function(jhtmlObj) {
     if (_.isFunction(jhtmlObj.body)) {
         finalJhtmlObj.body = jhtmlObj.body();
     }
-    if (!_.isUndefined(jhtmlObj.properties) && _.isFunction(jhtmlObj.properties)) {
-        finalJhtmlObj.properties = jhtmlObj.properties();
+    if (!_.isUndefined(jhtmlObj.properties)) {
+        if (_.isFunction(jhtmlObj.properties)) {
+            finalJhtmlObj.properties = jhtmlObj.properties();
+        }
+        var keys = _.keys(jhtmlObj.properties);
+        _.each(keys, function(key) {
+            if (_.isFunction(jhtmlObj.properties[key])) {
+                jhtmlObj.properties[key] = jhtmlObj.properties[key]();
+            }
+        });
     }
+    if (_.isFunction(jhtmlObj.comment)) {
+        finalJhtmlObj.comment = jhtmlObj.comment();
+    }
+    /* Make User input for HTML tag case insensitive */
+    jhtmlObj.tag = jhtmlObj.tag.toLowerCase();
     return doCompile(finalJhtmlObj);
 };
 /**
@@ -105,6 +132,13 @@ var doCompile = function(jhtmlObj) {
         });
     }
     var template = '<' + jhtmlObj.tag + tagProperties;
+    /* Handle html tag special case */
+    if (jhtmlObj.tag === 'html') {
+        template = '<!DOCTYPE html>' + template;
+    }
+    if (!_.isUndefined(jhtmlObj.comment)) {
+        template = '<!--' + jhtmlObj.comment + '-->' + template;
+    }
     if (useClosingTag(jhtmlObj.tag) === true) {
         template = template + '>' + finalBody + '</' + jhtmlObj.tag + '>';
     } else {
@@ -141,7 +175,6 @@ var generateHtmlFile = function(destinationPath, pathOrObj, loadFromFile) {
         if (err) {
             throw err;
         }
-        console.log(destinationPath + '.html created');
     });
 };
 /**

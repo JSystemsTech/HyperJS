@@ -1,8 +1,8 @@
 {
   "name": "html-template-generator",
-  "version": "0.2.0",
-  "description": "A simple library to generate html strings from javascript",
-  "main": "index.js",
+  "version": "0.3.0",
+  "description": "A simple library to generate html from javascript",
+  "main": "html-template-generator.js",
   "scripts": {
     "test": "mkdir test/htmlTemplatesTest && mkdir test/htmlTemplatesTest/generatedTemplates && make test && rm -r test/htmlTemplatesTest"
   },
