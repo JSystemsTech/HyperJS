@@ -1,5 +1,5 @@
 var should = require('chai').should(),
-    jhtml = require('../index'),
+    jhtml = require('../html-template-generator'),
     fs = require('fs'),
     compile = jhtml.compile,
     load = jhtml.load,
