@@ -95,12 +95,16 @@ An Alias for properties. If both properties and attrs is declared properties wil
 Compile using tree structure 
 
     var htmlTemplate1 = compile(complexTag)  
-***outputs***: '<div class="testClass"><div class="testClass">test div tag1</div><br/><div class="testClass">test div tag2</div></div>'
+***outputs***:  
+    
+    <div class="testClass"><div class="testClass">test div tag1</div><br/><div class="testClass">test div tag2</div></div>
 
 Compile using tree structure with user defined functions 
 
     var htmlTemplate1 = compile(functionTag)  
-***outputs***: '<div class="testClass"><div class="testClass">test div tag1</div><div class="testClass">test div tag2</div><div class="testClass">test div tag3</div></div>
+***outputs***:  
+    
+    <div class="testClass"><div class="testClass">test div tag1</div><div class="testClass">test div tag2</div><div class="testClass">test div tag3</div></div>
 
 **2. Register Template**  
 Register user defined template to be used in other files.
@@ -113,7 +117,9 @@ Register user defined template to be used in other files.
             subTitle: 'testing title'  
         }  
     });  
-***outputs***: '<div><div>testing title</div><div class="testClass">test div tag</div></div>'
+***outputs***:  
+    
+    <div><div>testing title</div><div class="testClass">test div tag</div></div>
 
 **3. Load Template**   
 Requires and compiles to html from file that returns an object like the examples above.  
@@ -154,6 +160,7 @@ Add unit tests for any new or changed functionality. Lint and test your code.
  Release History
  -----------
 
+* **0.3.1** Fix README format
 * **0.3.0** Expand Tag Functionality
 * **0.2.0** Add HTML File Generation functionality
 * **0.1.0** Initial release
