@@ -14,7 +14,7 @@ A simple library to generate html from javascript
 * **tag**  
 ***String***: HTML tag type  
 ***Function***: Returns HTML tag type string  
-Tag types can be any HTML tag. The HTML tags are generated with a closing tag like this: <!--<div></div>--> and some tags are generated without a closing tag like this  <br/>. In the case of the <!--<html>--> the <!--<!DOCTYPE html>--> tag will be automatically appended before the tag.
+Tag types can be any HTML tag. The HTML tags are generated with a closing tag like this:`<div></div>` and some tags are generated without a closing tag like this `<br/>`. In the case of the `<html>` the `<!DOCTYPE html>` tag will be automatically appended before the tag.
 * **properties**  
 ***Object***: HTML tag attributes with HTML tag attribute as the key and string or function which returns a string as the value.   
 ***Function***: Returns Object in the format as described above
@@ -103,8 +103,7 @@ Compile using tree structure with user defined functions
 
     var htmlTemplate1 = compile(functionTag)  
 ***outputs***:  
-    
-    <div class="testClass"><div class="testClass">test div tag1</div><div class="testClass">test div tag2</div><div class="testClass">test div tag3</div></div>
+`<div class="testClass"><div class="testClass">test div tag1</div><div class="testClass">test div tag2</div><div class="testClass">test div tag3</div></div>`
 
 **2. Register Template**  
 Register user defined template to be used in other files.
@@ -118,8 +117,7 @@ Register user defined template to be used in other files.
         }  
     });  
 ***outputs***:  
-    
-    <div><div>testing title</div><div class="testClass">test div tag</div></div>
+`<div><div>testing title</div><div class="testClass">test div tag</div></div>`
 
 **3. Load Template**   
 Requires and compiles to html from file that returns an object like the examples above.  
