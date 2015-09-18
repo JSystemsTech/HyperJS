@@ -14,7 +14,7 @@ A simple library to generate html from javascript
 * **tag**  
 ***String***: HTML tag type  
 ***Function***: Returns HTML tag type string  
-Tag types can be any HTML tag. The HTML tags are generated with a closing tag like this: <div></div> and some tags are generated without a closing tag like this  <br/>. In the case of the <html> the <!DOCTYPE html> tag will be automatically appended before the tag.
+Tag types can be any HTML tag. The HTML tags are generated with a closing tag like this: <!--<div></div>--> and some tags are generated without a closing tag like this  <br/>. In the case of the <!--<html>--> the <!--<!DOCTYPE html>--> tag will be automatically appended before the tag.
 * **properties**  
 ***Object***: HTML tag attributes with HTML tag attribute as the key and string or function which returns a string as the value.   
 ***Function***: Returns Object in the format as described above
@@ -23,12 +23,12 @@ An Alias for properties. If both properties and attrs is declared properties wil
 ***Object***: HTML tag attributes with HTML tag attribute as the key and string or function which returns a string as the value.  
 ***Function***: Returns Object in the format as described above
 * **comment**  
-			String: Comment text to be applied before the HTML tag
-			Function: Returns comment string
+***String***: Comment text to be applied before the HTML tag  
+***Function***: Returns comment string  
 * **body**  
-			String: Text Content of the HTML tag,
-			Array: An Array of tag objects. Will generate the tags that are within the tag.
-			Function: Returns String text or an array of tag objects as described above.
+***String***: Text Content of the HTML tag. 
+***Array***: An Array of tag objects. Will generate the tags that are within the tag.  
+***Function***: Returns String text or an array of tag objects as described above.  
 
 ### Examples 
 	var htmlTemplateGenerator = require('html-template-generator'),
@@ -160,6 +160,7 @@ Add unit tests for any new or changed functionality. Lint and test your code.
  Release History
  -----------
 
+* **1.0.0** First major release
 * **0.3.1** Fix README format
 * **0.3.0** Expand Tag Functionality
 * **0.2.0** Add HTML File Generation functionality

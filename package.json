@@ -1,6 +1,6 @@
 {
   "name": "html-template-generator",
-  "version": "0.3.1",
+  "version": "1.0.0",
   "description": "A simple library to generate html from javascript",
   "main": "html-template-generator.js",
   "scripts": {
@@ -19,7 +19,8 @@
   ],
   "author": "JSystemsTech <jsystemstech@gmail.com> (http://jsystemstech.com)",
   "dependencies": {
-    "underscore": "x.x.x"
+    "underscore": "x.x.x",
+    "parse5": "x.x.x"
   },
   "license": "MIT",
   "bugs": {
