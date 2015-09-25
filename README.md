@@ -1,6 +1,6 @@
 
 <p align="center">
-  <img src="https://raw.github.com/JSystemsTech/HyperJS/dev/logo.png" alt="HyperJS"/>
+  <img src="https://raw.github.com/JSystemsTech/HyperJS/master/logo.png" alt="HyperJS"/>
 </p>
 
 A library to compile and parse html to and from javascript code
