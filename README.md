@@ -7,7 +7,9 @@ A library to compile and parse html to and from javascript code
 **Installation**
 ------------------------
   npm install hyperjs --save
+
   bower install hyperjs
+
 **Usage**
 ----------
 
@@ -190,6 +192,7 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 Add unit tests for any new or changed functionality. Lint and test your code.
 **Release History**
 ----
+* **1.0.2** Fix README format again
 * **1.0.1** Fix README format
 * **1.0.0** First major release
 ####	Released under html-template-generator
