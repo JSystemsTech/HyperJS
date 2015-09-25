@@ -1,16 +1,9 @@
-html-template-generator
-=========
-
+#**html-template-generator**
 A simple library to generate html from javascript
-
- Installation
- -----------
-
+##**Installation**
   npm install html-template-generator --save
-
- Usage
- -----------
-### Tag Object Attributes Valid Types
+## **Usage**
+###**Tag Object Attributes Valid Types**
 * **tag**  
 ***String***: HTML tag type  
 ***Function***: Returns HTML tag type string  
@@ -30,13 +23,14 @@ An Alias for properties. If both properties and attrs is declared properties wil
 ***Array***: An Array of tag objects. Will generate the tags that are within the tag.  
 ***Function***: Returns String text or an array of tag objects as described above.  
 
-### Examples 
+### **Examples**
 	var htmlTemplateGenerator = require('html-template-generator'),
 		compile = htmlTemplateGenerator.compile,
 		load = htmlTemplateGenerator.load,
 		registerTemplate = htmlTemplateGenerator.registerTemplate,
 		generateHtmlFile = jhtml.generateHtmlFile,
-		generateHtmlTemplatesDir = jhtml.generateHtmlTemplatesDir;
+		generateHtmlTemplatesDir = jhtml.generateHtmlTemplatesDir,
+		parser = jhtml.parser;
 
 	var complexTag = {
 		tag: 'div',
@@ -91,7 +85,7 @@ An Alias for properties. If both properties and attrs is declared properties wil
 			}, singleTag]
 		}
 	};
- **1.	Compile Template**  
+####**1.	Compile Template**  
 Compile using tree structure 
 
     var htmlTemplate1 = compile(complexTag)  
@@ -105,7 +99,7 @@ Compile using tree structure with user defined functions
 ***outputs***:  
 `<div class="testClass"><div class="testClass">test div tag1</div><div class="testClass">test div tag2</div><div class="testClass">test div tag3</div></div>`
 
-**2. Register Template**  
+####**2. Register Template**  
 Register user defined template to be used in other files.
 
     registerTemplate('exampleTemplate', template);     
@@ -119,13 +113,13 @@ Register user defined template to be used in other files.
 ***outputs***:  
 `<div><div>testing title</div><div class="testClass">test div tag</div></div>`
 
-**3. Load Template**   
+####**3. Load Template**   
 Requires and compiles to html from file that returns an object like the examples above.  
 The File can be a .js or .json file
 	
     var htmlTemplateFromFile = load(<file path>);
 
-**4. Generate HTML File**
+####**4. Generate HTML File**
 
 	var destinationPath = 'tempates/html/testTemplate1'; 
 Do not include '.html' extention in the path since it is handled by the function already.
@@ -135,7 +129,7 @@ Or load from file
 
 	generateHtmlFile(destinationPath, <file path>, true);
 	
-**5. Generate HTML Template Directory**  
+####**5. Generate HTML Template Directory**  
 Takes only the .js and .json files of a given directory and generates HTML files in another directory. 
 
 	var sourceDirPath = 'tempates/html/templates; 
@@ -143,21 +137,46 @@ Takes only the .js and .json files of a given directory and generates HTML files
 	generateHtmlTemplatesDir(sourceDirPath, destinationDirPath);
 Note that the names of the HTML files will ne the same as the names of the .js and .json files.
 
-	
-Tests
------------
+####**6. HTML Parser**
+#####**a. parse**
+Takes in an HTML string or path to HTML file of a given directory and generates a JS object template in the format used. Do not include '.html' extention in the path since it is handled by the function already.
 
+	var callback = function(error, data) {
+		//handle error or data
+    };
+    var htmlString = '<div class="testClass">test div tag</div>';
+    var sourcePath = 'tempates/html/generatedHtml';
+    parser.parse(htmlString, callback, false);
+    parser.parse(sourcePath, callback, true);
+#####**b. parseToJS**
+Takes in an HTML string or path to HTML file of a given directory and generates a .js file at the chosen desinationPath. Do not include '.js' extention in the path since it is handled by the function already.
+
+    var callback = function(error, successfullyWroteToFile) {
+		//handle error or successfullyWroteToFile boolean
+    };
+    var htmlString = '<div class="testClass">test div tag</div>';
+    var sourcePath = 'tempates/html/generatedHtml';
+    var destinationPath = './test/htmlTemplatesTest/parseFiles/testParseToJS';
+    parser.parseToJS(destinationPath, htmlString, callback, false);
+    parser.parseToJS(destinationPath, sourcePath, callback, true);
+#####**b. parseToJS**
+Takes in an HTML string or path to HTML file of a given directory and generates a .json file at the chosen desinationPath. Do not include '.json' extention in the path since it is handled by the function already.
+
+    var callback = function(error, successfullyWroteToFile) {
+		//handle error or successfullyWroteToFile boolean
+    };
+    var htmlString = '<div class="testClass">test div tag</div>';
+    var sourcePath = 'tempates/html/generatedHtml';
+    var destinationPath = './test/htmlTemplatesTest/parseFiles/testParseToJson';
+    parser.parseToJson(destinationPath, htmlString, callback, false);
+    parser.parseToJson(destinationPath, sourcePath, callback, true);
+
+##**Tests**
   npm test
-
- Contributing
- -----------
-
+##**Contributing**
 In lieu of a formal styleguide, take care to maintain the existing coding style.
 Add unit tests for any new or changed functionality. Lint and test your code.
-
- Release History
- -----------
-
+##**Release History**
 * **1.0.0** First major release
 * **0.3.1** Fix README format
 * **0.3.0** Expand Tag Functionality

@@ -1,6 +1,6 @@
 {
   "name": "html-template-generator",
-  "main": "html-template-generator.js",
+  "main": "dist/html-template-generator.min.js",
   "version": "1.0.0",
   "homepage": "https://github.com/JSystemsTech/jhtml",
   "authors": [
@@ -21,13 +21,5 @@
     "bower_components",
     "test",
     "tests"
-  ],
-  "dependencies": {
-    "underscore": "https://github.com/jashkenas/underscore",
-    "parse5": "https://github.com/inikulin/parse5"
-  },
-  "devDependencies": {
-    "chai": "https://github.com/chaijs/chai",
-    "mocha": "https://github.com/mochajs/mocha"
-  }
+  ]
 }

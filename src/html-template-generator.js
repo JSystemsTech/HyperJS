@@ -1,6 +1,10 @@
-var _ = require('underscore'),
+'use strict';
+
+var _ = require('lodash'),
     fs = require('fs'),
-    parse5 = require('parse5');
+    parse5 = require('parse5'),
+    path = require('path');
+
 var tagsTypesThatDoNotNeedClosingTag = [
     'area',
     'base',
@@ -160,7 +164,7 @@ var doCompile = function(jhtmlObj) {
  * @return {String}
  **/
 var load = function(sourcePath) {
-    var jhtmlObj = require(sourcePath);
+    var jhtmlObj = require(path.join(__dirname, sourcePath));
     return preCompileObject(jhtmlObj);
 };
 /**
@@ -177,7 +181,7 @@ var generateHtmlFile = function(destinationPath, pathOrObj, loadFromFile) {
         compiledHtmlString = preCompileObject(pathOrObj);
     }
 
-    fs.writeFile(destinationPath + '.html', compiledHtmlString, {
+    fs.writeFile(path.join(__dirname, destinationPath + '.html'), compiledHtmlString, {
         flags: 'wx'
     }, function(err) {
         if (err) {
@@ -191,7 +195,7 @@ var generateHtmlFile = function(destinationPath, pathOrObj, loadFromFile) {
  * @param {String} destinationDirPath
  */
 var generateHtmlTemplatesDir = function(sourceDirPath, destinationDirPath) {
-    fs.readdir(sourceDirPath, function(err, files) {
+    fs.readdir(path.join(__dirname, sourceDirPath), function(err, files) {
         if (err) {
             throw err;
         }
@@ -205,6 +209,19 @@ var generateHtmlTemplatesDir = function(sourceDirPath, destinationDirPath) {
         });
     });
 };
+var readModuleFile = function(path, callback) {
+    try {
+        var filename = require.resolve(path);
+        fs.readFile(filename, 'utf8', callback);
+    } catch (e) {
+        console.log(e);
+        callback(e);
+    }
+};
+/**
+ *   Parse single HTML Dom Tree child node
+ * @param {Object}childNode
+ */
 var doParse = function(childNode) {
     if (childNode.nodeName === '#comment') {
         return {
@@ -215,7 +232,7 @@ var doParse = function(childNode) {
             body: childNode.value
         };
     } else {
-        var jhtmlObj;
+        var jhtmlObj = {};
         jhtmlObj.tag = childNode.tagName;
         if (childNode.attrs.length > 0) {
             jhtmlObj.properties = parseAttrs(childNode);
@@ -224,6 +241,10 @@ var doParse = function(childNode) {
         return jhtmlObj;
     }
 };
+/**
+ *   Parse the child nodes of a single tag in the HTML Dom Tree
+ * @param {Array} childNodes
+ */
 var parseBody = function(childNodes) {
     if (childNodes.length === 0) {
         return '';
@@ -237,56 +258,102 @@ var parseBody = function(childNodes) {
         return body;
     }
 };
+/**
+ *   Parse single HTML Dom Tree child node's attrs and 
+ *   create properties object
+ * @param {Object} childNode
+ */
 var parseAttrs = function(childNode) {
     var properties = {};
     _.each(childNode.attrs, function(attr) {
         properties[attr.name] = attr.value;
     });
     return properties;
-}
-var preParse = function(pathOrHtmlString, loadFromFile) {
+};
+/**
+ *   Parse the HTML Dom treen from string or file
+ *   and then parse to template object
+ * @param {String} || {Object} pathOrHtmlString
+ * @param {Boolean} loadFromFile
+ */
+var preParse = function(pathOrHtmlString, callback, loadFromFile) {
     var htmlString = pathOrHtmlString;
+    var afterGetHTMLString = function(html) {
+        var parser = new parse5.Parser(),
+            domTree;
+        if (html.indexOf('<html>') !== -1) {
+            domTree = parser.parse(html);
+            if (domTree.childNodes[0].nodeName === '#documentType') {
+                domTree.childNodes = domTree.childNodes.slice(1, domTree.childNodes.length);
+            }
+        } else {
+            domTree = parser.parseFragment(html);
+        }
+        if (domTree.childNodes.length > 1) {
+            return {
+                body: parseBody(domTree.childNodes)
+            };
+        }
+        return doParse(domTree.childNodes[0]);
+    };
     if (!_.isUndefined(loadFromFile) && loadFromFile === true) {
-        htmlString = require(pathOrHtmlString);
-    }
-    var parser = new parse5.Parser(),
-        domTree;
-    if (htmlString.indexOf('<html>') !== -1) {
-        domTree = parser.parse(htmlString);
-        if (domTree.childNodes[0].nodeName === '#documentType') {
-            domTree.childNodes = domTree.childNodes.slice(1, domTree.childNodes.length);
-        }
+        readModuleFile(pathOrHtmlString + '.html', function(err, html) {
+            if (err) {
+                callback(err, null);
+            } else {
+                callback(null, afterGetHTMLString(html));
+            }
+        });
     } else {
-        domTree = parser.parseFragment(htmlString);
+        callback(null, afterGetHTMLString(htmlString));
     }
-    if (domTree.childNodes.length > 1) {
-        return {
-            body: parseBody(domTree.childNodes)
-        };
-    }
-    return doParse(domTree.childNodes[0]);
-}
-var parseTo = function(extention, destinationPath, pathOrHtmlString, loadFromFile) {
-    var parsedHtml = preParse(pathOrObj, loadFromFile);
-    var output = JSON.stringify(parsedHtml);
-    if (extention = '.js') {
-        output = 'module.exports=' + output + ';';
-    }
-    fs.writeFile(destinationPath + extention, output, {
-        flags: 'wx'
-    }, function(err) {
-        if (err) {
-            throw err;
+};
+/**
+ *   Parse the HTML Dom treen from string or file
+ *   and then parse result directly to file
+ * @param {String} extention
+ * @param {String} destinationPath
+ * @param {String} || {Object} pathOrHtmlString
+ * @param {Boolean} loadFromFile
+ */
+var parseTo = function(extention, destinationPath, pathOrHtmlString, loadFromFile, callback) {
+    preParse(pathOrHtmlString, function(error, parsedHtml) {
+        var output = JSON.stringify(parsedHtml);
+        if (extention === '.js') {
+            output = 'module.exports=' + output + ';';
         }
-    });
+        fs.writeFile(path.join(__dirname, destinationPath + extention), output, {
+            flags: 'wx'
+        }, function(err) {
+            if (err) {
+                callback(err, false);
+            }else{
+                callback(null, true);
+            }
+        });
+    }, loadFromFile);
 };
-var parseToJS = function(destinationPath, pathOrHtmlString, loadFromFile) {
+/**
+ *   Parse the HTML Dom treen from string or file
+ *   and then parse result directly to .js file
+ * @param {String} destinationPath
+ * @param {String} || {Object} pathOrHtmlString
+ * @param {Boolean} loadFromFile
+ */
+var parseToJS = function(destinationPath, pathOrHtmlString, callback, loadFromFile) {
     var useFile = loadFromFile || false;
-    parseTo('.js', destinationPath, pathOrHtmlString, useFile);
+    parseTo('.js', destinationPath, pathOrHtmlString, useFile, callback);
 };
-var parseToJson = function(destinationPath, pathOrHtmlString, loadFromFile) {
+/**
+ *   Parse the HTML Dom treen from string or file
+ *   and then parse result directly to .json file
+ * @param {String} destinationPath
+ * @param {String} || {Object} pathOrHtmlString
+ * @param {Boolean} loadFromFile
+ */
+var parseToJson = function(destinationPath, pathOrHtmlString, callback, loadFromFile) {
     var useFile = loadFromFile || false;
-    parseTo('.json', destinationPath, pathOrHtmlString, useFile);
+    parseTo('.json', destinationPath, pathOrHtmlString, useFile, callback);
 };
 module.exports = {
     compile: preCompileObject,

@@ -2,9 +2,11 @@
   "name": "html-template-generator",
   "version": "1.0.0",
   "description": "A simple library to generate html from javascript",
-  "main": "html-template-generator.js",
+  "main": "index.js",
   "scripts": {
-    "test": "mkdir test/htmlTemplatesTest && mkdir test/htmlTemplatesTest/generatedTemplates && make test && rm -r test/htmlTemplatesTest"
+    "pretest":"mkdir test/htmlTemplatesTest && mkdir test/htmlTemplatesTest/generatedTemplates && mkdir test/htmlTemplatesTest/parseFiles && touch test/htmlTemplatesTest/parseFiles/testParseToJS1.js && touch test/htmlTemplatesTest/parseFiles/testParseToJS2.js && touch test/htmlTemplatesTest/parseFiles/testParseToJson1.json && touch test/htmlTemplatesTest/parseFiles/testParseToJson2.json",
+    "test": "mocha --require mocha-helper.js --recursive src",
+    "posttest": "rm -r test/htmlTemplatesTest"
   },
   "repository": {
     "type": "git",
@@ -19,7 +21,7 @@
   ],
   "author": "JSystemsTech <jsystemstech@gmail.com> (http://jsystemstech.com)",
   "dependencies": {
-    "underscore": "x.x.x",
+    "lodash": "x.x.x",
     "parse5": "x.x.x"
   },
   "license": "MIT",
@@ -28,7 +30,18 @@
   },
   "homepage": "https://github.com/JSystemsTech/jhtml#readme",
   "devDependencies": {
-    "chai": "^3.2.0",
-    "mocha": "^2.3.2"
+    "browserify": "^10.2.4",
+    "gulp": "^3.9.0",
+    "gulp-istanbul": "^0.10.0",
+    "gulp-mocha": "^2.1.2",
+    "gulp-rename": "^1.2.2",
+    "gulp-uglify": "^1.2.0",
+    "istanbul": "^0.3.16",
+    "lodash": "^3.9.3",
+    "mocha": "^2.2.5",
+    "must": "^0.12.0",
+    "sinon": "^1.15.3",
+    "vinyl-buffer": "^1.0.0",
+    "vinyl-source-stream": "^1.1.0"
   }
 }
