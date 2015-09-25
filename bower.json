@@ -1,13 +1,15 @@
 {
-  "name": "html-template-generator",
+  "name": "hyperjs",
   "main": "dist/html-template-generator.min.js",
   "version": "1.0.0",
-  "homepage": "https://github.com/JSystemsTech/jhtml",
+  "homepage": "https://github.com/JSystemsTech/HyperJS",
   "authors": [
     "JSystemsTech <jsystemstech@gmail.com>"
   ],
   "description": "A simple library to generate html from javascript",
   "keywords": [
+    "hyperjs",
+    "hyper",
     "jhtml",
     "jshtml",
     "generate-html",

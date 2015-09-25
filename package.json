@@ -1,7 +1,7 @@
 {
-  "name": "html-template-generator",
+  "name": "hyperjs",
   "version": "1.0.0",
-  "description": "A simple library to generate html from javascript",
+  "description": "A library to compile and parse html to and from javascript code",
   "main": "index.js",
   "scripts": {
     "pretest":"mkdir test/htmlTemplatesTest && mkdir test/htmlTemplatesTest/generatedTemplates && mkdir test/htmlTemplatesTest/parseFiles && touch test/htmlTemplatesTest/parseFiles/testParseToJS1.js && touch test/htmlTemplatesTest/parseFiles/testParseToJS2.js && touch test/htmlTemplatesTest/parseFiles/testParseToJson1.json && touch test/htmlTemplatesTest/parseFiles/testParseToJson2.json",
@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://JSystemsTech@github.com/JSystemsTech/jhtml.git"
+    "url": "git+https://JSystemsTech@github.com/JSystemsTech/HyperJS.git"
   },
   "keywords": [
     "jhtml",
@@ -26,9 +26,9 @@
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/JSystemsTech/jhtml/issues"
+    "url": "https://github.com/JSystemsTech/Hyper/issues"
   },
-  "homepage": "https://github.com/JSystemsTech/jhtml#readme",
+  "homepage": "https://github.com/JSystemsTech/HyperJS#readme",
   "devDependencies": {
     "browserify": "^10.2.4",
     "gulp": "^3.9.0",

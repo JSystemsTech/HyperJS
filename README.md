@@ -1,7 +1,9 @@
-#**html-template-generator**
-A simple library to generate html from javascript
+#**HyperJS**
+![hyper js logo](https://github.com/JSystemsTech/HyperJS/logo.png)
+A library to compile and parse html to and from javascript code
 ##**Installation**
-  npm install html-template-generator --save
+  npm install HyperJS --save
+  bower install HyperJS
 ## **Usage**
 ###**Tag Object Attributes Valid Types**
 * **tag**  
@@ -138,6 +140,8 @@ Takes only the .js and .json files of a given directory and generates HTML files
 Note that the names of the HTML files will ne the same as the names of the .js and .json files.
 
 ####**6. HTML Parser**
+Works on pure html code. Does not work with embedded Handlebars helpers and the like.
+
 #####**a. parse**
 Takes in an HTML string or path to HTML file of a given directory and generates a JS object template in the format used. Do not include '.html' extention in the path since it is handled by the function already.
 
